@@ -1,10 +1,10 @@
 package utils
 
 import (
-	"bufio"
-	"fmt"
 	"os"
+	"fmt"
 	"time"
+	"bufio"
 
 	"github.com/rivo/tview"
 )

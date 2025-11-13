@@ -1,9 +1,9 @@
 package utils
 
 import (
-	"encoding/json"
-	"fmt"
 	"os"
+	"fmt"
+	"encoding/json"
 	"path/filepath"
 )
 

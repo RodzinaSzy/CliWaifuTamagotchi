@@ -16,7 +16,7 @@ Preview:
 - [🎨 Customization](#-customization)
 - [📂 Project Structure](#-project-structure)
 - [⚙️ Core Scripts](#-core-scripts)
-    - [launch.go](#launchgo)
+    - [main.go](#maingo)
     - [utils/app-utils.go](#utilsapp-utilsgo)
     - [utils/commands-utils.go](#utilscommands-utilsgo)
     - [utils/happiness.go](#utilshappinessgo)
@@ -27,49 +27,68 @@ Preview:
 ---
 
 ## ✨ Overview
-CliWaifuTamagotchi is a **terminal-based companion** that:
-- Renders **ASCII face, expressions, and clothes**.
-- Provides a small set of **interactions**: Encourage, Dress Up, Quit.
+CliWaifuTamagotchi is a **terminal-based tamagotchi** that:
+
+- Renders **ASCII expressions and clothes**.
+- Provides a small set of **interactions**: Encourage, Dress Up, Background Mode, Quit.
 - Uses a **persistent color palette** stored in `~/.config/cliwaifutamagotchi/palette.json`.
+- Uses **persistent detail settings** stored in `~/.config/cliwaifutamagotchi/settings.json`.
 - Minimal UI built using **`tview` and `tcell`**.
+
+No tons of loops - only one function that repeats itself every 5 seconds. Everything handles and updates according to it.
 
 ---
 
 ## 🎬 Launching Process
 
-1. **Clone repository**
-```bash
-git clone https://github.com/HenryLoM/CliWaifuTamagotchi.git
-cd CliWaifuTamagotchi
-````
+<details>
+  <summary>Brew</summary>
 
-2. **Ensure Go 1.20+ is installed**
+  1. **Install**
 
-```bash
-go version
-```
+  ```bash
+  brew install HenryLoM/CliWaifuTamagotchi/cliwt
+  ```
 
-3. **Build the binary**
+  2. **Run**
 
-```bash
-go build -o cliWT
-```
+  ```bash
+  cliwt
+  ```
 
-4. **Run the app**
+  ---
 
-```bash
-./cliWT
-```
+</details>
 
-- **Or run directly for development**
+<details>
+  <summary>Git (Source code)</summary>
 
-```bash
-go run launch.go
-```
+  1. **Clone repository**
+
+  ```bash
+  git clone https://github.com/HenryLoM/CliWaifuTamagotchi.git
+  cd CliWaifuTamagotchi
+  ```
+
+  2. **Run the app**
+
+  ```bash
+  ./cliwt
+  ```
+
+  - **Or run directly for development**
+
+  ```bash
+  go run main.go
+  ```
+
+  ---
+
+</details>
 
 > **💡 Notes**
 >
-> * First run creates `~/.config/cliwaifutamagotchi/palette.json` on its own if missing.
+> * First run creates `~/.config/cliwaifutamagotchi/` directory and `palette.json`, `settings.json` files in it on its own if missing.
 > * On macOS, ensure your terminal supports **true color** for best rendering.
 
 ---
@@ -114,7 +133,8 @@ CliWaifuTamagotchi/
 ├── reactions.jpg
 ├── go.mod
 ├── go.sum
-├── launch.go                       # Main file that launches the project
+├── cliwt                           # Main file to execute the program
+├── main.go                         # Main file that launches the project
 │
 ├── ascii-arts/
 │   ├── clothes/                    # ASCII bodies
@@ -135,7 +155,7 @@ CliWaifuTamagotchi/
 
 ## ⚙️ Core Scripts
 
-### **launch.go**
+### **main.go**
 
 * Loads ASCII **head, blink frames, and body**.
 * Displays **actions menu**: Encourage, Dress Up, Quit.
