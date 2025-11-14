@@ -1,14 +1,13 @@
 package utils
 
 import (
-	"os"
 	"fmt"
-	"time"
 	"math/rand"
-	"path/filepath"
+	"path"
+	"time"
 
-	"github.com/rivo/tview"
 	"github.com/gdamore/tcell/v2"
+	"github.com/rivo/tview"
 )
 
 // ==============================
@@ -74,7 +73,7 @@ func DressUp(app *tview.Application, waifuArt, chatBox *tview.TextView,
 	}
 
 	list := tview.NewList()
-	ApplyListPalette(cachedPalette, list)  // Safe: the error could have occurred during the initialization
+	ApplyListPalette(cachedPalette, list) // Safe: the error could have occurred during the initialization
 	for _, item := range clothesCache {
 		display := "-" + item.Name
 		list.AddItem(display, "", 0, func() {
@@ -103,24 +102,43 @@ func DressUp(app *tview.Application, waifuArt, chatBox *tview.TextView,
 }
 
 // scanASCIIFiles recursively scans directory and returns paths and display names
-func scanASCIIFiles(dir string) ([]string, []string) {
+func scanASCIIFiles(dir string) ([]string, []string, error) {
 	var files []string
 	var names []string
-	filepath.Walk(dir, func(path string, info os.FileInfo, err error) error {
-		if err != nil || info.IsDir() {
-			return nil
+
+	var walk func(string, string) error
+	walk = func(currentPath, relPath string) error {
+		entries, err := ASCIIFS.ReadDir(currentPath)
+		if err != nil {
+			return err
 		}
-		files = append(files, path)
-		rel, _ := filepath.Rel(dir, path)
-		names = append(names, rel)
+		for _, e := range entries {
+			fullPath := path.Join(currentPath, e.Name())
+			rel := path.Join(relPath, e.Name())
+			if e.IsDir() {
+				if err := walk(fullPath, rel); err != nil {
+					return err
+				}
+			} else {
+				files = append(files, fullPath)
+				names = append(names, rel)
+			}
+		}
 		return nil
-	})
-	return files, names
+	}
+
+	if err := walk(dir, ""); err != nil {
+		return nil, nil, err
+	}
+	return files, names, nil
 }
 
 // LoadClothes loads all clothes ASCII files from the specified directory into the cache
 func LoadClothes(dir string) error {
-	files, names := scanASCIIFiles(dir)
+	files, names, err := scanASCIIFiles(dir)
+	if err != nil {
+		return fmt.Errorf("failed to scan clothes: %v", err)
+	}
 	if len(files) == 0 {
 		return fmt.Errorf("no clothes found")
 	}
@@ -150,7 +168,6 @@ func closeDressUp(app *tview.Application, grid *tview.Grid, list *tview.List,
 	grid.AddItem(actionSpace, 0, 0, 1, 1, 0, 0, true)
 	app.SetFocus(actionSpace)
 }
-
 
 // ==============================
 // BACKGROUND MODE
@@ -196,6 +213,6 @@ func closeBackground(app *tview.Application, grid *tview.Grid,
 
 	app.SetFocus(actionSpace)
 	waifuArt.SetDoneFunc(nil)
-	
+
 	LockGridChanges = false
 }

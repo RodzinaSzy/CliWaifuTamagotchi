@@ -7,7 +7,7 @@ import (
 	"github.com/rivo/tview"
 	"github.com/gdamore/tcell/v2"
 
-	"CliWaifuTamagotchi/utils"
+	"cliwt/utils"
 )
 
 // ==============================

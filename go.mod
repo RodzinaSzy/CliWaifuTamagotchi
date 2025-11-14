@@ -1,4 +1,4 @@
-module CliWaifuTamagotchi
+module cliwt
 
 go 1.23.0
 

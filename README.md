@@ -133,22 +133,23 @@ CliWaifuTamagotchi/
 ├── reactions.jpg
 ├── go.mod
 ├── go.sum
-├── cliwt                           # Main file to execute the program
-├── main.go                         # Main file that launches the project
-│
-├── ascii-arts/
-│   ├── clothes/                    # ASCII bodies
-│   └── expressions/                # ASCII heads
-│
-├── assets/
-│   └── words-of-encouragement.txt  # List of lines for the first function
+├── cliwt                               # Main file to execute the program
+├── main.go                             # Main file that launches the project
 │
 └── utils/
-    ├── app-utils.go                # Main helpers
-    ├── commands-utils.go           # Functions for the Action Space
-    ├── happiness.go                # Happiness scoring system
-    ├── palette-utils.go            # Handling palette out of the file
-    └── settings.go                 # Handling settings out of the file
+    │
+    ├── ascii-arts/
+    │   ├── clothes/                    # ASCII bodies
+    │   └── expressions/                # ASCII heads
+    │
+    ├── assets/
+    │   └── words-of-encouragement.txt  # List of lines for the first function
+    │
+    ├── app-utils.go                    # Main helpers
+    ├── commands-utils.go               # Functions for the Action Space
+    ├── happiness.go                    # Happiness scoring system
+    ├── palette-utils.go                # Handling palette out of the file
+    └── settings.go                     # Handling settings out of the file
 ```
 
 ---

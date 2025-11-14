@@ -1,10 +1,10 @@
 package utils
 
 import (
-	"os"
+	"bufio"
+	"embed"
 	"fmt"
 	"time"
-	"bufio"
 
 	"github.com/rivo/tview"
 )
@@ -16,9 +16,14 @@ var UIEventsChan chan func()
 // ASCII ART LOADING
 // ==============================
 
+// Embed the entire ascii-arts directory recursively
+//
+//go:embed ascii-arts/**
+var ASCIIFS embed.FS
+
 // LoadASCII loads ASCII art from a file and returns it as a string
 func LoadASCII(path string) string {
-	content, err := os.ReadFile(path)
+	content, err := ASCIIFS.ReadFile(path)
 	if err != nil {
 		panic(fmt.Sprintf("Failed to load %s: %v", path, err))
 		return ""
@@ -26,9 +31,12 @@ func LoadASCII(path string) string {
 	return string(content)
 }
 
+//go:embed assets/**
+var ASSETSFS embed.FS
+
 // LoadEncouragements loads a slice of lines from a text file
 func LoadEncouragements(path string) ([]string, error) {
-	file, err := os.Open(path)
+	file, err := ASSETSFS.Open(path)
 	if err != nil {
 		return nil, fmt.Errorf("failed to open %s: %w", path, err)
 	}
