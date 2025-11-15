@@ -6,8 +6,8 @@ import (
 	"path"
 	"time"
 
-	"github.com/gdamore/tcell/v2"
 	"github.com/rivo/tview"
+	"github.com/gdamore/tcell/v2"
 )
 
 // ==============================
@@ -17,7 +17,7 @@ import (
 // Encourage shows a random encouragement, swaps head for `duration`, then restores
 func Encourage(app *tview.Application, waifuArt, chatBox *tview.TextView,
 	head, happyHead, body string, encouragements []string,
-	duration time.Duration, unlockFunc func()) {
+	duration time.Duration, waifuName string, unlockFunc func()) {
 
 	if len(encouragements) == 0 {
 		unlockFunc()
@@ -31,7 +31,7 @@ func Encourage(app *tview.Application, waifuArt, chatBox *tview.TextView,
 		// Show happy face + message
 		if UIEventsChan != nil {
 			UIEventsChan <- func() {
-				chatBox.SetText("Waifu: " + line)
+				chatBox.SetText(waifuName + ": " + line)
 				waifuArt.SetText(happyHead + "\n" + body)
 				IncreaseHappiness(6)
 			}
@@ -59,9 +59,9 @@ var clothesCache []struct {
 }
 
 // DressUp allows the user to pick a clothes ASCII file from a scrollable list
-func DressUp(app *tview.Application, waifuArt, chatBox *tview.TextView,
-	head, blinkHead string, grid *tview.Grid, actionSpace *tview.List,
-	currentBody *string) {
+func DressUp(app *tview.Application, grid *tview.Grid, actionSpace *tview.List, waifuArt, chatBox *tview.TextView,
+	head, blinkHead string,
+	currentBody *string, waifuName string) {
 
 	if len(clothesCache) == 0 {
 		if UIEventsChan != nil {
@@ -81,7 +81,7 @@ func DressUp(app *tview.Application, waifuArt, chatBox *tview.TextView,
 				UIEventsChan <- func() {
 					*currentBody = item.Data
 					waifuArt.SetText(head + "\n" + *currentBody)
-					chatBox.SetText("Waifu changed into: " + item.Name)
+					chatBox.SetText(waifuName + " changed into: " + item.Name)
 					IncreaseHappiness(3)
 				}
 			}

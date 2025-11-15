@@ -87,22 +87,22 @@ func createUI(assets *Assets) *UI {
 // ==============================
 // ACTION SPACE SETUP
 // ==============================
-func setupActionSpace(ui *UI, assets *Assets, encourageLocked *bool, currentBody *string, keys utils.KeyBindings) {
+func setupActionSpace(ui *UI, assets *Assets, encourageLocked *bool, currentBody *string, keys utils.KeyBindings, waifuName string) {
 	ui.actionSpace.AddItem("Encourage", "  Get a nice message.", rune(keys.Encourage[0]), func() {
 		if !*encourageLocked {
 			*encourageLocked = true
 			utils.Encourage(ui.app, ui.waifuArt, ui.chatBox,
 				assets.head, assets.happyHead, *currentBody,
-				assets.encouragements, 1*time.Second,
+				assets.encouragements, 1*time.Second, waifuName,
 				func() { *encourageLocked = false })
 		}
 	})
 
 	ui.actionSpace.AddItem("Dress Up", "  Change her outfit.", rune(keys.DressUp[0]), func() {
 		if !utils.LockGridChanges {
-			utils.DressUp(ui.app, ui.waifuArt, ui.chatBox,
-				assets.head, assets.headBlink,
-				ui.grid, ui.actionSpace, currentBody)
+			utils.DressUp(ui.app, ui.grid, ui.actionSpace, ui.waifuArt, ui.chatBox, 
+					assets.head, assets.headBlink, 
+					currentBody, waifuName)
 		}
 	})
 
@@ -115,27 +115,28 @@ func setupActionSpace(ui *UI, assets *Assets, encourageLocked *bool, currentBody
 	})
 }
 
-
 // ==============================
 // GLOBAL KEYS
 // ==============================
-func setGlobalKeys(ui *UI, assets *Assets, encourageLocked *bool, currentBody *string, keys utils.KeyBindings, isVimNavigation bool) {
+func setGlobalKeys(ui *UI, assets *Assets, encourageLocked *bool, currentBody *string, keys utils.KeyBindings, isVimNavigation bool, waifuName string) {
 	ui.app.SetInputCapture(func(event *tcell.EventKey) *tcell.EventKey {
+		
+		// Main keys for actions
 		switch event.Rune() {
 		case rune(keys.Encourage[0]):
 			if !*encourageLocked {
 				*encourageLocked = true
 				utils.Encourage(ui.app, ui.waifuArt, ui.chatBox,
 					assets.head, assets.happyHead, *currentBody,
-					assets.encouragements, 1*time.Second,
+					assets.encouragements, 1*time.Second, waifuName,
 					func() { *encourageLocked = false })
 			}
 			return nil
 		case rune(keys.DressUp[0]):
 			if !utils.LockGridChanges {
-				utils.DressUp(ui.app, ui.waifuArt, ui.chatBox,
-					assets.head, assets.headBlink,
-					ui.grid, ui.actionSpace, currentBody)
+				utils.DressUp(ui.app, ui.grid, ui.actionSpace, ui.waifuArt, ui.chatBox, 
+					assets.head, assets.headBlink, 
+					currentBody, waifuName)
 			}
 			return nil
 		case rune(keys.BackgroundMode[0]):
@@ -146,7 +147,7 @@ func setGlobalKeys(ui *UI, assets *Assets, encourageLocked *bool, currentBody *s
 			return nil
 		}
 
-		// Vim-like navigation works for any focused list
+		// Vim-like navigation keys that work on any focused list
 		if isVimNavigation {
 			if focusedPrimitive := ui.app.GetFocus(); focusedPrimitive != nil {
 				// Check if the focused primitive is a list to enable vim navigation
@@ -246,9 +247,8 @@ func main() {
 
 	// ===== Set functions
 	// =====
-	setupActionSpace(ui, assets, &encourageLocked, &currentBody, settings.Keys)
-	setGlobalKeys(ui, assets, &encourageLocked, &currentBody, settings.Keys, settings.VimNavigation)
-
+	setupActionSpace(ui, assets, &encourageLocked, &currentBody, settings.Keys, settings.Name)
+	setGlobalKeys(ui, assets, &encourageLocked, &currentBody, settings.Keys, settings.VimNavigation, settings.Name)
 
 	// ===== Auto processes
 	// =====

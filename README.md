@@ -19,10 +19,12 @@ Preview:
     - [main.go](#maingo)
     - [utils/app-utils.go](#utilsapp-utilsgo)
     - [utils/commands-utils.go](#utilscommands-utilsgo)
-    - [utils/happiness.go](#utilshappinessgo)
-    - [utils/palette-utils.go](#utilspalette-utilsgo)
-    - [utils/settings.go](#utilssettingsgo)
+    - [utils/happiness-utils.go](#utilshappiness-utilsgo)
+    - [utils/palette-handler.go](#utilspalette-handlergo)
+    - [utils/settings-handler.go](#utilssettings-handlergo)
+    - [utils/encouragements-handler.go](#utilsencouragements-handlergo)
 - [📜 Notes & Error handling](#-notes--error-handling)
+- [🛐 Special thanks](#-special-thanks)
 
 ---
 
@@ -175,13 +177,14 @@ CliWaifuTamagotchi/
     │   └── expressions/                # ASCII heads
     │
     ├── assets/
-    │   └── words-of-encouragement.txt  # List of lines for the first function
+    │   └── words-of-encouragement.txt  # List of lines for Encouragement function
     │
     ├── app-utils.go                    # Main helpers
     ├── commands-utils.go               # Functions for the Action Space
-    ├── happiness.go                    # Happiness scoring system
-    ├── palette-utils.go                # Handling palette out of the file
-    └── settings.go                     # Handling settings out of the file
+    ├── happiness-utils.go              # Happiness scoring system
+    ├── palette-handler.go              # Handling palette out of the file
+    ├── encouragements-handler.go       # Handling encouragements out of the file
+    └── settings-handler.go             # Handling settings out of the file
 ```
 
 ---
@@ -209,21 +212,26 @@ CliWaifuTamagotchi/
   * `BackgroundMode`: fills the TUI with Waifu, removing all of the odd elements.
 * Caches **clothes in memory** to reduce disk reads.
 
-### **utils/happiness.go**
+### **utils/happiness-utils.go**
 
 * Handles the bar and changes emotions of the avatar.
 * Handles the happiness scores.
 
-### **utils/palette-utils.go**
+### **utils/palette-handler.go**
 
 * Loads palette from `~/.config/cliwaifutamagotchi/palette.json`.
 * Creates **default palette** if missing.
 * Provides **color application** helpers.
 
-### **utils/settings.go**
+### **utils/settings-handler.go**
 
 * Loads settings from `~/.config/cliwaifutamagotchi/settings.json`.
 * Creates **default settings** if missing.
+
+### **utils/encouragements-handler.go**
+
+* Loads settings from `~/.config/cliwaifutamagotchi/words-of-encouragement.txt`.
+* Restores **default encouragements** from relative directory if missing.
 
 ---
 
@@ -236,6 +244,13 @@ CliWaifuTamagotchi/
 #### **Warning:**
 * Missing/malformed ASCII files may cause a wrong output; handle carefully if modifying assets inside the structure.
 
+#### **Read, if you want to contribute**
+* Project lives only because there are people who use it. Let's make sure we do it for people, not to recieve anotehr achivement to out profiles.
+* Keep the code clean and constructive.
+* Two main goals of the project:
+  * As cusomizable TUI as we can get.
+  * As lightweight tool as we can create, since the project assumes users leave it on the background.
+
 #### **Future plans:**
 * More interactions (feeding, timed events, stats).
 * Save selected outfit and preferences.
@@ -246,10 +261,13 @@ CliWaifuTamagotchi/
 
 ---
 
+## 🛐 Special thanks
+
+- **[sutemo](https://sutemo.itch.io/)** — for the [amazing sprites](https://sutemo.itch.io/female-character) you can see in the project.
+- **[mininit](https://github.com/mininit)** — for embedding all assets and enabling a clean, pure build process.
+- **[Ali Medhat](https://github.com/Alimedhat000)** — for adding Vim-style navigation.
+- **[Isaac Hesslegrave](https://github.com/HeadedBranch)** — for implementing Arch Linux support via `yay` and `paru`.
+
+---
+
 ⤴︎ Return to the [📑 Table of Contents](#-table-of-contents) ⤴︎
-
-## Special thanks
-
-<a href="https://github.com/HenryLoM/CliWaifuTamagotchi/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=HenryLoM/CliWaifuTamagotchi" />
-</a>

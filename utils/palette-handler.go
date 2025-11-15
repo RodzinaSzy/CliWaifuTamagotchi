@@ -6,8 +6,8 @@ import (
 	"encoding/json"
 	"path/filepath"
 
-	"github.com/gdamore/tcell/v2"
 	"github.com/rivo/tview"
+	"github.com/gdamore/tcell/v2"
 )
 
 // ==============================
