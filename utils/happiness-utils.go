@@ -19,14 +19,14 @@ var (
 // Load all expressions once
 // ==============================
 var (
-	neutral       = LoadASCII("ascii-arts/expressions/neutral")
-	neutralBlink  = LoadASCII("ascii-arts/expressions/neutral-blink")
-	confused      = LoadASCII("ascii-arts/expressions/confused")
-	confusedBlink = LoadASCII("ascii-arts/expressions/confused-blink")
-	bored         = LoadASCII("ascii-arts/expressions/bored")
-	boredBlink    = LoadASCII("ascii-arts/expressions/bored-blink")
-	sad           = LoadASCII("ascii-arts/expressions/sad")
-	sadBlink      = LoadASCII("ascii-arts/expressions/sad-blink")
+	neutral       = LoadASCII(BasePath + "/expressions/neutral")
+	neutralBlink  = LoadASCII(BasePath + "/expressions/neutral-blink")
+	confused      = LoadASCII(BasePath + "/expressions/confused")
+	confusedBlink = LoadASCII(BasePath + "/expressions/confused-blink")
+	bored         = LoadASCII(BasePath + "/expressions/bored")
+	boredBlink    = LoadASCII(BasePath + "/expressions/bored-blink")
+	sad           = LoadASCII(BasePath + "/expressions/sad")
+	sadBlink      = LoadASCII(BasePath + "/expressions/sad-blink")
 )
 
 func setExpression(head, blink string) {

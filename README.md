@@ -1,9 +1,11 @@
 # 🫂 CliWaifuTamagotchi
 
 Preview:
-![Result](result.gif)
+![Result](screenshots/result.gif)
 ---
-![Reactions](reactions.jpg)
+###### You can turn the avatar to **husbando** in `~/.config/cliwaifutamagotchi/settings.json`!
+![Husbando](screenshots/husbando-preview.jpg)
+
 
 ![Repo size](https://img.shields.io/github/repo-size/HenryLoM/CliWaifuTamagotchi?color=lightgrey)
 ![Commits](https://img.shields.io/github/commit-activity/t/HenryLoM/CliWaifuTamagotchi/main?color=blue)
@@ -23,6 +25,7 @@ Preview:
     - [utils/palette-handler.go](#utilspalette-handlergo)
     - [utils/settings-handler.go](#utilssettings-handlergo)
     - [utils/encouragements-handler.go](#utilsencouragements-handlergo)
+    - [utils/gifts-handler.go](#utilsgifts-handlergo)
 - [📜 Notes & Error handling](#-notes--error-handling)
 - [🛐 Special thanks](#-special-thanks)
 
@@ -35,6 +38,7 @@ CliWaifuTamagotchi is a **terminal-based tamagotchi** that:
 - Provides a small set of **interactions**: Encourage, Dress Up, Background Mode, Quit.
 - Uses a **persistent color palette** stored in `~/.config/cliwaifutamagotchi/palette.json`.
 - Uses **persistent detail settings** stored in `~/.config/cliwaifutamagotchi/settings.json`.
+- Customize some of the functions editing **`words-of-encouragement.txt` and `gifts.json`** in the same directory.
 - Has minimal UI built using **`tview` and `tcell`**.
 - Has **Vim-style navigation**: Use `h`, `j`, `k`, `l` keys for intuitive navigation and selection (Must be enabled in **settings.json**).
 
@@ -122,7 +126,7 @@ No tons of loops - only one function that repeats itself every 5 seconds. Everyt
 
 ## 🎨 Customization
 
-1. Palette<br>
+1. **Palette**<br>
 JSON file is in `~/.config/cliwaifutamagotchi/` ; Named `palette.json`<br>
 JSON file's structure:
 ```
@@ -136,7 +140,7 @@ JSON file's structure:
 ```
 > Note: default palette is Catppuchin (Mocha).
 
-2. Settings<br>
+2. **Settings**<br>
 JSON file is in `~/.config/cliwaifutamagotchi/` ; Named `settings.json`<br>
 JSON file's structure:
 ```
@@ -144,6 +148,7 @@ JSON file's structure:
   "name": "Waifu",
   "defaultMessage": "...",
   "vimNavigation": false,
+  "avatarType": "waifu",
   "keys": {
     "encourage": "l",
     "dressup": "2",
@@ -153,6 +158,14 @@ JSON file's structure:
 }
 ```
 > Note: try to avoid key overrides when using `"vimNavigation": true`.
+
+3. **Words of encouragement**<br>
+TXT file is in `~/.config/cliwaifutamagotchi/` ; Named `words-of-encouragement.txt`<br>
+> Note: It's extensible!
+
+4. **Gifts**<br>
+JSON file is in `~/.config/cliwaifutamagotchi/` ; Named `gifts.json`<br>
+> Note: It's extensible!
 
 ---
 
@@ -164,17 +177,26 @@ CliWaifuTamagotchi/
 ├── README.md
 ├── LICENSE
 ├── .gitignore
-├── result.gif
-├── reactions.jpg
 ├── go.mod
 ├── go.sum
 ├── main.go                             # Main file that launches the project
 │
+├── screenshots/
+│   ├── result.gif
+│   ├── reactions.jpg
+│   └── husbando-preview.jpg
+│
 └── utils/
     │
     ├── ascii-arts/
-    │   ├── clothes/                    # ASCII bodies
-    │   └── expressions/                # ASCII heads
+    │   │
+    │   ├── waifu/                      # Arts for waifu avatar
+    │   │   ├── clothes/...             # ASCII bodies
+    │   │   └── expressions/...         # ASCII heads
+    │   │
+    │   └── husbando/...                # Arts for husbando avatar
+    │       ├── clothes/...             # ASCII bodies
+    │       └── expressions/...         # ASCII heads
     │
     ├── assets/
     │   └── words-of-encouragement.txt  # List of lines for Encouragement function
@@ -183,8 +205,9 @@ CliWaifuTamagotchi/
     ├── commands-utils.go               # Functions for the Action Space
     ├── happiness-utils.go              # Happiness scoring system
     ├── palette-handler.go              # Handling palette out of the file
+    ├── settings-handler.go             # Handling settings out of the file
     ├── encouragements-handler.go       # Handling encouragements out of the file
-    └── settings-handler.go             # Handling settings out of the file
+    └── gifts-handler.go                # Handling gifts out of the file
 ```
 
 ---
@@ -208,9 +231,11 @@ CliWaifuTamagotchi/
 * Implements **interactions logic**:
 
   * `Encourage`: random encouraging phrase + happy frame.
+  * `GiftMenu`: choose gifts, apply happiness, show reaction.
   * `DressUp`: swaps body/outfit based on selection.
   * `BackgroundMode`: fills the TUI with Waifu, removing all of the odd elements.
-* Caches **clothes in memory** to reduce disk reads.
+* Manages UI state and async updates via UIEventsChan.
+* Caches custotmizable files to reduce disk reads.
 
 ### **utils/happiness-utils.go**
 
@@ -233,6 +258,11 @@ CliWaifuTamagotchi/
 * Loads settings from `~/.config/cliwaifutamagotchi/words-of-encouragement.txt`.
 * Restores **default encouragements** from relative directory if missing.
 
+### **utils/gifts-handler.go**
+
+* Loads settings from `~/.config/cliwaifutamagotchi/gifts.json`.
+* Restores **default gifts** if missing.
+
 ---
 
 ## 📜 Notes & Error handling
@@ -244,8 +274,8 @@ CliWaifuTamagotchi/
 #### **Warning:**
 * Missing/malformed ASCII files may cause a wrong output; handle carefully if modifying assets inside the structure.
 
-#### **Read, if you want to contribute**
-* Project lives only because there are people who use it. Let's make sure we do it for people, not to recieve anotehr achivement to out profiles.
+#### **Read, if you want to contribute:**
+* Project lives only because there are people who use it. Let's make sure we do it for people, not to recieve another achivement to out profiles.
 * Keep the code clean and constructive.
 * Two main goals of the project:
   * As cusomizable TUI as we can get.
@@ -263,7 +293,7 @@ CliWaifuTamagotchi/
 
 ## 🛐 Special thanks
 
-- **[sutemo](https://sutemo.itch.io/)** — for the [amazing sprites](https://sutemo.itch.io/female-character) you can see in the project.
+- **[sutemo](https://sutemo.itch.io/)** — for the amaazing [female](https://sutemo.itch.io/female-character) & [male](https://sutemo.itch.io/male-character-sprite-for-visual-novel) sprites you can see in the project.
 - **[mininit](https://github.com/mininit)** — for embedding all assets and enabling a clean, pure build process.
 - **[Ali Medhat](https://github.com/Alimedhat000)** — for adding Vim-style navigation.
 - **[Isaac Hesslegrave](https://github.com/HeadedBranch)** — for implementing Arch Linux support via `yay` and `paru`.

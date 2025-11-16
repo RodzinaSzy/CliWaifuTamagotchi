@@ -2,9 +2,9 @@ package utils
 
 import (
 	"fmt"
-	"math/rand"
 	"path"
 	"time"
+	"math/rand"
 
 	"github.com/rivo/tview"
 	"github.com/gdamore/tcell/v2"
@@ -15,38 +15,134 @@ import (
 // ==============================
 
 // Encourage shows a random encouragement, swaps head for `duration`, then restores
-func Encourage(app *tview.Application, waifuArt, chatBox *tview.TextView,
-	head, happyHead, body string, encouragements []string,
-	duration time.Duration, waifuName string, unlockFunc func()) {
-
+func Encourage(
+	app *tview.Application,
+	waifuArt, chatBox *tview.TextView,
+	head, happyHead, body, waifuName string,
+	encouragements []string,
+	duration time.Duration,
+	unlockFunc func(),
+) {
 	if len(encouragements) == 0 {
 		unlockFunc()
 		return
 	}
 
-	go func() {
-		rand.Seed(time.Now().UnixNano())
-		line := encouragements[rand.Intn(len(encouragements))]
+	rand.Seed(time.Now().UnixNano())
+	line := encouragements[rand.Intn(len(encouragements))]
 
-		// Show happy face + message
-		if UIEventsChan != nil {
-			UIEventsChan <- func() {
-				chatBox.SetText(waifuName + ": " + line)
-				waifuArt.SetText(happyHead + "\n" + body)
-				IncreaseHappiness(6)
-			}
+	// Show happy face + message instantly
+	if UIEventsChan != nil {
+		UIEventsChan <- func() {
+			chatBox.SetText(waifuName + ": " + line)
+			waifuArt.SetText(happyHead + "\n" + body)
+			IncreaseHappiness(6)
 		}
+	}
 
-		time.Sleep(duration)
-
-		// Restore neutral
+	// AfterFunc schedules a delayed callback without blocking
+	time.AfterFunc(duration, func() {
 		if UIEventsChan != nil {
 			UIEventsChan <- func() {
 				waifuArt.SetText(head + "\n" + body)
-				unlockFunc()
+				unlockFunc()  
 			}
 		}
-	}()
+	})
+}
+
+// ==============================
+// GIFT SYSTEM
+// ==============================
+
+var giftCache []Gift
+
+func GiftMenu(
+	app *tview.Application,
+	grid *tview.Grid,
+	actionSpace *tview.List,
+	waifuArt, chatBox *tview.TextView,
+	head, happyHead, waifuName string,
+	currentBody *string,
+) {
+
+	// Load gifts if not cached
+	if len(giftCache) == 0 {
+		gf, err := LoadGifts()
+		if err != nil {
+			showChatMessage(chatBox, "Failed to load gifts!")
+			return
+		}
+		giftCache = gf.Gifts
+	}
+
+	if len(giftCache) == 0 {
+		showChatMessage(chatBox, "No gifts available!")
+		return
+	}
+
+	list := tview.NewList()
+	ApplyListPalette(cachedPalette, list)
+
+	for _, g := range giftCache {
+		gift := g
+
+		display := fmt.Sprintf("- %s (+%d)", gift.Name, gift.Happiness)
+
+		list.AddItem(display, "", 0, func() {
+			// Show reaction
+			if UIEventsChan != nil {
+				UIEventsChan <- func() {
+					chatBox.SetText(waifuName + ": Aw, thank you for the " + gift.Name + " ♡")
+
+					// Happy head + current body (same as Encourage)
+					waifuArt.SetText(happyHead + "\n" + *currentBody)
+
+					// Apply happiness from JSON
+					IncreaseHappiness(gift.Happiness)
+				}
+			}
+
+			// Restore after 1 second
+			time.AfterFunc(1*time.Second, func() {
+				if UIEventsChan != nil {
+					UIEventsChan <- func() {
+						waifuArt.SetText(head + "\n" + *currentBody)
+					}
+				}
+			})
+
+			closeGiftMenu(app, grid, list, actionSpace)
+		})
+	}
+
+	list.SetBorder(true).SetTitle("| Gifts |").SetTitleAlign(tview.AlignCenter)
+	list.SetDoneFunc(func() {
+		closeGiftMenu(app, grid, list, actionSpace)
+	})
+
+	grid.RemoveItem(actionSpace)
+	grid.AddItem(list, 0, 0, 1, 1, 0, 0, true)
+	app.SetFocus(list)
+}
+
+func showChatMessage(chatBox *tview.TextView, msg string) {
+	if UIEventsChan != nil {
+		UIEventsChan <- func() {
+			chatBox.SetText(msg)
+		}
+	}
+}
+
+func closeGiftMenu(
+	app *tview.Application,
+	grid *tview.Grid,
+	list, actionSpace *tview.List,
+) {
+
+	grid.RemoveItem(list)
+	grid.AddItem(actionSpace, 0, 0, 1, 1, 0, 0, true)
+	app.SetFocus(actionSpace)
 }
 
 // ==============================
@@ -59,10 +155,14 @@ var clothesCache []struct {
 }
 
 // DressUp allows the user to pick a clothes ASCII file from a scrollable list
-func DressUp(app *tview.Application, grid *tview.Grid, actionSpace *tview.List, waifuArt, chatBox *tview.TextView,
-	head, blinkHead string,
-	currentBody *string, waifuName string) {
-
+func DressUp(
+	app *tview.Application,
+	grid *tview.Grid,
+	actionSpace *tview.List,
+	waifuArt, chatBox *tview.TextView,
+	head, waifuName string,
+	currentBody *string,
+) {
 	if len(clothesCache) == 0 {
 		if UIEventsChan != nil {
 			UIEventsChan <- func() {
@@ -86,13 +186,13 @@ func DressUp(app *tview.Application, grid *tview.Grid, actionSpace *tview.List, 
 				}
 			}
 
-			closeDressUp(app, grid, list, actionSpace, waifuArt, head, blinkHead, currentBody)
+			closeDressUp(app, grid, list, actionSpace, waifuArt, head, currentBody)
 		})
 	}
 
 	list.SetBorder(true).SetTitle("| Dress Up |").SetTitleAlign(tview.AlignCenter)
 	list.SetDoneFunc(func() {
-		closeDressUp(app, grid, list, actionSpace, waifuArt, head, blinkHead, currentBody)
+		closeDressUp(app, grid, list, actionSpace, waifuArt, head, currentBody)
 	})
 
 	// Swap in the dress-up list
@@ -160,9 +260,15 @@ func LoadClothes(dir string) error {
 }
 
 // closeDressUp restores the actionSpace and restarts blinking
-func closeDressUp(app *tview.Application, grid *tview.Grid, list *tview.List,
-	actionSpace *tview.List, waifuArt *tview.TextView,
-	head, blinkHead string, currentBody *string) {
+func closeDressUp(
+	app *tview.Application,
+	grid *tview.Grid,
+	list *tview.List,
+	actionSpace *tview.List,
+	waifuArt *tview.TextView,
+	head string,
+	currentBody *string,
+) {
 
 	grid.RemoveItem(list)
 	grid.AddItem(actionSpace, 0, 0, 1, 1, 0, 0, true)
@@ -176,9 +282,13 @@ func closeDressUp(app *tview.Application, grid *tview.Grid, list *tview.List,
 var LockGridChanges bool = false
 
 // BackgroundMode makes the UI focus only on the waifuArt view
-func BackgroundMode(app *tview.Application, waifuArt, chatBox, happinessBar *tview.TextView,
-	grid *tview.Grid, actionSpace *tview.List, currentBody *string) {
-
+func BackgroundMode(
+	app *tview.Application,
+	grid *tview.Grid,
+	waifuArt, chatBox, happinessBar *tview.TextView,
+	actionSpace *tview.List,
+	currentBody *string,
+) {
 	// Block some keys
 	LockGridChanges = true
 
@@ -200,10 +310,13 @@ func BackgroundMode(app *tview.Application, waifuArt, chatBox, happinessBar *tvi
 }
 
 // closeBackground restores the previous layout after BackgroundMode
-func closeBackground(app *tview.Application, grid *tview.Grid,
-	waifuArt *tview.TextView, actionSpace *tview.List,
-	happinessBar, chatBox *tview.TextView) {
-
+func closeBackground(
+	app *tview.Application,
+	grid *tview.Grid,
+	waifuArt *tview.TextView,
+	actionSpace *tview.List,
+	happinessBar, chatBox *tview.TextView,
+) {
 	grid.RemoveItem(waifuArt)
 
 	grid.AddItem(actionSpace, 0, 0, 1, 1, 0, 0, true)

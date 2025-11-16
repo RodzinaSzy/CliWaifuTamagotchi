@@ -12,8 +12,11 @@ import (
 // ==============================
 type KeyBindings struct {
     Encourage      string `json:"encourage"`
+    Gift           string `json:"gift"`
     DressUp        string `json:"dressup"`
+    PoseMode       string `json:"poseMode"`
     BackgroundMode string `json:"backgroundMode"`
+    SwapGender     string `json:"swapGender"`
     Quit           string `json:"quit"`
 }
 
@@ -21,6 +24,7 @@ type Settings struct {
     Name           string      `json:"name"`
     DefaultMessage string      `json:"defaultMessage"`
     VimNavigation  bool        `json:"vimNavigation"`
+    AvatarType     string      `json:"avatarType"`
     Keys           KeyBindings `json:"keys"`
 }
 
@@ -34,10 +38,14 @@ func DefaultSettings() *Settings {
         Name:           "Waifu",
         DefaultMessage: "...",
         VimNavigation:  false,
+        AvatarType:     "waifu",
         Keys: KeyBindings{
             Encourage:      "1",
-            DressUp:        "2",
+            Gift:           "2",
+            DressUp:        "3",
+            PoseMode:       "4",
             BackgroundMode: "b",
+            SwapGender:     "s",
             Quit:           "q",
         },
     }
@@ -95,10 +103,28 @@ func LoadSettings() (*Settings, error) {
 
     var s Settings
     if err := json.NewDecoder(file).Decode(&s); err != nil {
-        // fallback to default if JSON is malformed
         s = *DefaultSettings()
     }
 
     cachedSettings = &s
     return cachedSettings, nil
+}
+
+// ==============================
+// GLOBAL ASCII BASE PATH
+// ==============================
+func GetBasePath() string {
+    s, err := LoadSettings()
+    if err != nil {
+        // fallback
+        return "ascii-arts/waifu"
+    }
+    if s.AvatarType == "waifu" {
+        return "ascii-arts/waifu"
+    }
+    if s.AvatarType == "husbando" {
+        return "ascii-arts/husbando"
+    }
+    // fallback
+    return "ascii-arts/waifu"
 }

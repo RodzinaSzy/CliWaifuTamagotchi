@@ -29,10 +29,10 @@ func loadAssets() (*Assets, error) {
 	}
 
 	return &Assets{
-		head:           utils.LoadASCII("ascii-arts/expressions/neutral"),
-		headBlink:      utils.LoadASCII("ascii-arts/expressions/neutral-blink"),
-		happyHead:      utils.LoadASCII("ascii-arts/expressions/-happy"),
-		body:           utils.LoadASCII("ascii-arts/clothes/seifuku"),
+		head:           utils.LoadASCII(utils.BasePath + "/expressions/neutral"),
+		headBlink:      utils.LoadASCII(utils.BasePath + "/expressions/neutral-blink"),
+		happyHead:      utils.LoadASCII(utils.BasePath + "/expressions/-happy"),
+		body:           utils.LoadASCII(utils.BasePath + "/clothes/hoodie"),
 		encouragements: encouragements,
 	}, nil
 }
@@ -76,10 +76,10 @@ func createUI(assets *Assets) *UI {
 		SetRows(0, 3).
 		SetColumns(40, 0).
 		SetBorders(false).
-		AddItem(actionSpace,  0, 0, 1, 1, 0, 0, true).
-		AddItem(happinessBar, 1, 0, 1, 1, 0, 0, false).
+		AddItem(actionSpace,  0, 0, 1, 1, 0, 0,  true).
+		AddItem(happinessBar, 1, 0, 1, 1, 0, 0,  false).
 		AddItem(waifuArt,     0, 1, 1, 1, 0, 75, false).
-		AddItem(chatBox,      1, 1, 1, 1, 0, 0, false)
+		AddItem(chatBox,      1, 1, 1, 1, 0, 0,  false)
 
 	return &UI{app, actionSpace, happinessBar, waifuArt, chatBox, grid, make(chan bool)}
 }
@@ -92,22 +92,28 @@ func setupActionSpace(ui *UI, assets *Assets, encourageLocked *bool, currentBody
 		if !*encourageLocked {
 			*encourageLocked = true
 			utils.Encourage(ui.app, ui.waifuArt, ui.chatBox,
-				assets.head, assets.happyHead, *currentBody,
-				assets.encouragements, 1*time.Second, waifuName,
+				assets.head, assets.happyHead, *currentBody, waifuName,
+				assets.encouragements, 1*time.Second,
 				func() { *encourageLocked = false })
+		}
+	})
+
+	ui.actionSpace.AddItem("Gift", "  Give her a gift.", rune(keys.Gift[0]), func() {
+		if !utils.LockGridChanges {
+			utils.GiftMenu(ui.app, ui.grid, ui.actionSpace, ui.waifuArt, ui.chatBox,
+				assets.head, assets.happyHead, waifuName, currentBody)
 		}
 	})
 
 	ui.actionSpace.AddItem("Dress Up", "  Change her outfit.", rune(keys.DressUp[0]), func() {
 		if !utils.LockGridChanges {
-			utils.DressUp(ui.app, ui.grid, ui.actionSpace, ui.waifuArt, ui.chatBox, 
-					assets.head, assets.headBlink, 
-					currentBody, waifuName)
+			utils.DressUp(ui.app, ui.grid, ui.actionSpace,ui.waifuArt, ui.chatBox,
+				assets.head, waifuName, currentBody)
 		}
 	})
 
 	ui.actionSpace.AddItem("Background Mode", "  Remove all odd TUI.", rune(keys.BackgroundMode[0]), func() {
-		utils.BackgroundMode(ui.app, ui.waifuArt, ui.chatBox, ui.happinessBar, ui.grid, ui.actionSpace, currentBody)
+		utils.BackgroundMode(ui.app, ui.grid, ui.waifuArt, ui.chatBox, ui.happinessBar, ui.actionSpace, currentBody)
 	})
 
 	ui.actionSpace.AddItem("Quit", "  Exit the application.", rune(keys.Quit[0]), func() {
@@ -127,20 +133,25 @@ func setGlobalKeys(ui *UI, assets *Assets, encourageLocked *bool, currentBody *s
 			if !*encourageLocked {
 				*encourageLocked = true
 				utils.Encourage(ui.app, ui.waifuArt, ui.chatBox,
-					assets.head, assets.happyHead, *currentBody,
-					assets.encouragements, 1*time.Second, waifuName,
+					assets.head, assets.happyHead, *currentBody, waifuName,
+					assets.encouragements, 1*time.Second,
 					func() { *encourageLocked = false })
+			}
+			return nil
+		case rune(keys.Gift[0]):
+			if !utils.LockGridChanges {
+				utils.GiftMenu(ui.app, ui.grid, ui.actionSpace, ui.waifuArt, ui.chatBox,
+					assets.head, assets.happyHead, waifuName, currentBody)
 			}
 			return nil
 		case rune(keys.DressUp[0]):
 			if !utils.LockGridChanges {
-				utils.DressUp(ui.app, ui.grid, ui.actionSpace, ui.waifuArt, ui.chatBox, 
-					assets.head, assets.headBlink, 
-					currentBody, waifuName)
+				utils.DressUp(ui.app, ui.grid, ui.actionSpace,ui.waifuArt,
+					ui.chatBox, assets.head, waifuName, currentBody)
 			}
 			return nil
 		case rune(keys.BackgroundMode[0]):
-			utils.BackgroundMode(ui.app, ui.waifuArt, ui.chatBox, ui.happinessBar, ui.grid, ui.actionSpace, currentBody)
+			utils.BackgroundMode(ui.app, ui.grid, ui.waifuArt, ui.chatBox, ui.happinessBar, ui.actionSpace, currentBody)
 			return nil
 		case rune(keys.Quit[0]):
 			ui.app.Stop()
@@ -257,7 +268,7 @@ func main() {
 
 	// ===== No returns - Error handling
 	// =====
-	if err := utils.LoadClothes("ascii-arts/clothes"); err != nil {
+	if err := utils.LoadClothes(utils.BasePath + "/clothes"); err != nil {
 		panic(err)
 	}
 	if err := ui.app.SetRoot(ui.grid, true).EnableMouse(false).Run(); err != nil {

@@ -10,6 +10,8 @@ import (
 
 // Reference to the channel for UI updates
 var UIEventsChan chan func()
+// Define the avatar's arts via their paths
+var BasePath = GetBasePath()
 
 // ==============================
 // EMBEDS
